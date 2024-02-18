@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Dice Roller Demo!</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div id="result" style="display: none;"></div>
+
+    <div id="menu-container">
+        <button id="dice-tab" class="dice-tab" onclick="toggle('slider');">
+            dice-tab
+        </button>
+        <div id="slider" style="display: none;">
+            <button id="D4" onclick="addDie('D4')" class="D4">D4</button>
+            <button id="D6" onclick="addDie('D6')" class="D6">D6</button>
+            <button id="D8" onclick="addDie('D8')" class="D8">D8</button>
+            <button id="D10" onclick="addDie('D10')" class="D10">D10</button>
+            <button id="D12" onclick="addDie('D12')" class="D12">D12</button>
+            <button id="D20" onclick="addDie('D20')" class="D20">D20</button>
+            <button id="D100" onclick="addDie('D100')" class="D100">D100</button>
+            <button id="rollButton" onclick="rollDice()" style="display:none;">Roll</button>
+        </div>
+        <button class="ECB" id="eventCreatorButton" onclick="openEventCreator()">EMaker</button>
+    </div>
+
+    <div id="eventCreatorForm" style="display: none;">
+        <h2>Create Event</h2>
+        <form id="eventForm">
+            <label for="eventName">Event Name:</label><br>
+            <input type="text" id="eventName" name="eventName"><br>
+
+            <label for="eventDescription">Event Description:</label><br>
+            <textarea id="eventDescription" name="eventDescription"></textarea><br>
+
+            <label for="eventImage">Event Image:</label><br>
+            <input type="file" id="eventImage" name="eventImage" accept="image/*"><br>
+
+            <button type="submit">Create Event</button>
+        </form>
+    </div>
+    <div id="tab" class="tab">
+        <div id="tabContent" class="tab-content">
+        </div>
+    </div>
+
+    <script>
+        let selectedDice = {};
+        let events = [];
+
+
+        window.onload = function () {
+            let storedEvents = localStorage.getItem('events');
+            if (storedEvents) {
+                events = JSON.parse(storedEvents);
+
+                events.forEach(function (event) {
+                    createEventBox(event);
+                });
+            }
+        };
+
+        function toggle(id) {
+            var slider = document.getElementById(id);
+            var result = document.getElementById("result");
+            var eMakerButton = document.getElementById("eventCreatorButton");
+
+            if (slider.style.display === 'none') {
+                slider.style.display = 'block';
+                result.style.display = 'block';
+                eMakerButton.style.display = 'none';
+            } else {
+                slider.style.display = 'none';
+                result.style.display = 'none';
+                eMakerButton.style.display = 'block';
+            }
+        }
+
+        function addDie(die) {
+            if (!selectedDice[die]) {
+                selectedDice[die] = 1;
+            } else {
+                selectedDice[die]++;
+            }
+            updateSelectedDiceDisplay();
+            document.getElementById("rollButton").style.display = "block";
+        }
+
+        function updateSelectedDiceDisplay() {
+            let selectedDiceDisplay = [];
+            for (const die in selectedDice) {
+                selectedDiceDisplay.push(`${selectedDice[die]}${die}`);
+            }
+            document.getElementById("result").innerText = `Rolling: ${selectedDiceDisplay.join(' + ')}`;
+        }
+
+        function rollDice() {
+            let totalResult = 0;
+            for (const die in selectedDice) {
+                switch (die) {
+                    case 'D4':
+                        totalResult += rollNDice(selectedDice[die], 4);
+                        break;
+                    case 'D6':
+                        totalResult += rollNDice(selectedDice[die], 6);
+                        break;
+                    case 'D8':
+                        totalResult += rollNDice(selectedDice[die], 8);
+                        break;
+                    case 'D10':
+                        totalResult += rollNDice(selectedDice[die], 10);
+                        break;
+                    case 'D12':
+                        totalResult += rollNDice(selectedDice[die], 12);
+                        break;
+                    case 'D20':
+                        totalResult += rollNDice(selectedDice[die], 20);
+                        break;
+                    case 'D100':
+                        totalResult += rollNDice(selectedDice[die], 100);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            document.getElementById("result").innerText = `Total Result: ${totalResult}`;
+            selectedDice = {};
+            document.getElementById("rollButton").style.display = "none";
+        }
+
+        function rollNDice(n, sides) {
+            let result = 0;
+            for (let i = 0; i < n; i++) {
+                result += Math.floor(Math.random() * sides) + 1;
+            }
+            return result;
+        }
+
+        function openEventCreator() {
+            var eventCreatorForm = document.getElementById("eventCreatorForm");
+            if (eventCreatorForm.style.display === 'none' || eventCreatorForm.style.display === '') {
+                eventCreatorForm.style.display = 'block';
+            } else {
+                eventCreatorForm.style.display = 'none';
+            }
+        }
+
+        document.getElementById('eventForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            let eventName = document.getElementById('eventName').value;
+            let eventDescription = document.getElementById('eventDescription').value;
+            let eventImage = document.getElementById('eventImage').files[0];
+
+            let reader = new FileReader();
+
+            reader.onload = function (event) {
+                let eventObj = {
+                    name: eventName,
+                    description: eventDescription,
+                    image: event.target.result, // Save image data URL
+                };
+
+                events.push(eventObj);
+                localStorage.setItem('events', JSON.stringify(events));
+                createEventBox(eventObj);
+                document.getElementById('eventForm').reset();
+            };
+
+            if (eventImage) {
+                reader.readAsDataURL(eventImage); // Read image file as data URL
+            }
+        });
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const tab = document.getElementById('tab');
+            const tabContent = document.getElementById('tabContent');
+            const tabToggle = document.createElement('div');
+            tabToggle.classList.add('tab-toggle');
+            tabToggle.textContent = 'Events';
+            document.body.appendChild(tabToggle);
+
+            let tabOpen = false;
+
+            tabToggle.addEventListener('click', function () {
+                if (tabOpen) {
+                    tab.style.left = '-300px'; 
+                    tabToggle.style.left = '0'; 
+                } else {
+                    tab.style.left = '0'; 
+                    tabToggle.style.left = '290px'; 
+                }
+                tabOpen = !tabOpen;
+            });
+
+
+
+        });
+        function createEventBox(event) {
+            let eventBox = document.createElement('div');
+            eventBox.classList.add('event-box');
+
+            let eventInfo = document.createElement('div');
+            eventInfo.classList.add('event-info');
+            eventInfo.innerHTML = `
+            <div class="left-tab">
+                <h3>${event.name}</h3>
+                <p><strong>Description:</strong> ${event.description}</p>
+                
+                <div>
+                    <img class="event-img" src="${event.image}" style="width: 64px; height: 64px;">
+                </div>
+
+                <div>
+                    <button class="remove-event-button">Remove Event</button>
+                </div>
+            </div>
+        `;
+            eventBox.appendChild(eventInfo);
+
+            let removeButton = eventInfo.querySelector('.remove-event-button');
+            removeButton.addEventListener('click', function () {
+                removeEvent(eventBox, event);
+            });
+            let eventImage = eventInfo.querySelector('img');
+            eventImage.addEventListener('click', function () {
+                toggleEventInfo(eventBox);
+            });
+
+            tabContent.appendChild(eventBox);
+        }
+
+        function toggleEventInfo(eventBox) {
+            let eventInfo = eventBox.querySelector('.event-info');
+            let eventText = eventInfo.querySelectorAll('h3, p');
+            eventText.forEach(function (element) {
+                if (element.style.display === 'none' || element.style.display === '') {
+                    element.style.display = 'block';
+                } else {
+                    element.style.display = 'none';
+                }
+            });
+        }
+
+
+        function removeEvent(eventBox, event) {
+            let index = events.indexOf(event);
+            if (index > -1) {
+                events.splice(index, 1);
+                localStorage.setItem('events', JSON.stringify(events));
+                eventBox.parentNode.removeChild(eventBox);
+            }
+        }
+    </script>
+</body>
+
+</html>

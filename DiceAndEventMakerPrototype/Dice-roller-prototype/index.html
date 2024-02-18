@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Dice Roller Demo!</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div id="result" style="display: none;"></div>
+
+    <div id="menu-container">
+        <button id="dice-tab" class="dice-tab" onclick="toggle('slider');">
+            dice-tab
+        </button>
+        <div id="slider" style="display: none;">
+            <button id="D4" onclick="addDie('D4')" class="D4">D4</button>
+            <button id="D6" onclick="addDie('D6')" class="D6">D6</button>
+            <button id="D8" onclick="addDie('D8')" class="D8">D8</button>
+            <button id="D10" onclick="addDie('D10')" class="D10">D10</button>
+            <button id="D12" onclick="addDie('D12')" class="D12">D12</button>
+            <button id="D20" onclick="addDie('D20')" class="D20">D20</button>
+            <button id="D100" onclick="addDie('D100')" class="D100">D100</button>
+            <button id="rollButton" onclick="rollDice()" style="display:none;">Roll</button>
+        </div>
+    </div>
+
+    <script>
+        let selectedDice = {};
+
+        function toggle(id) {
+            var slider = document.getElementById(id);
+            var result = document.getElementById("result");
+            if (slider.style.display === 'none') {
+                slider.style.display = 'block';
+                result.style.display = 'block';
+            } else {
+                slider.style.display = 'none';
+                result.style.display = 'none';
+            }
+        }
+
+        function addDie(die) {
+            if (!selectedDice[die]) {
+                selectedDice[die] = 1;
+            } else {
+                selectedDice[die]++;
+            }
+            updateSelectedDiceDisplay();
+            document.getElementById("rollButton").style.display = "block";
+        }
+
+        function updateSelectedDiceDisplay() {
+            let selectedDiceDisplay = [];
+            for (const die in selectedDice) {
+                selectedDiceDisplay.push(`${selectedDice[die]}${die}`);
+            }
+            document.getElementById("result").innerText = `Rolling: ${selectedDiceDisplay.join(' + ')}`;
+        }
+
+        function rollDice() {
+            let totalResult = 0;
+            for (const die in selectedDice) {
+                switch (die) {
+                    case 'D4':
+                        totalResult += rollNDice(selectedDice[die], 4);
+                        break;
+                    case 'D6':
+                        totalResult += rollNDice(selectedDice[die], 6);
+                        break;
+                    case 'D8':
+                        totalResult += rollNDice(selectedDice[die], 8);
+                        break;
+                    case 'D10':
+                        totalResult += rollNDice(selectedDice[die], 10);
+                        break;
+                    case 'D12':
+                        totalResult += rollNDice(selectedDice[die], 12);
+                        break;
+                    case 'D20':
+                        totalResult += rollNDice(selectedDice[die], 20);
+                        break;
+                    case 'D100':
+                        totalResult += rollNDice(selectedDice[die], 100);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            document.getElementById("result").innerText = `Total Result: ${totalResult}`;
+            selectedDice = {}; 
+            document.getElementById("rollButton").style.display = "none";
+        }
+
+        function rollNDice(n, sides) {
+            let result = 0;
+            for (let i = 0; i < n; i++) {
+                result += Math.floor(Math.random() * sides) + 1;
+            }
+            return result;
+        }
+
+    </script>
+    <script src="./renderer.js"></script>
+</body>
+
+</html>

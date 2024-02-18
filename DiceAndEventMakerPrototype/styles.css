@@ -1,0 +1,194 @@
+.D4 {
+    background-color: #FF5733;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+}
+.D6 {
+    background-color: #FF5733;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+}
+.D8 {
+    background-color: #FF5733;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+}
+.D10 {
+    background-color: #FF5733;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+}
+.D12 {
+    background-color: #FF5733;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+}
+.D20 {
+    background-color: #FF5733;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+}
+.D100 {
+    background-color: #FF5733;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+}
+#rollButton {
+    background-color: #FF5733;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+}
+/* What is below handels the menuing of the tab*/
+#menu-container {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+}
+
+#dice-tab {
+    background-color: #ff5e00;
+    text-align: center;
+    padding: 10px;
+    border-radius: 10px;
+}
+#slider-container {
+    position: relative;
+}
+
+#slider {
+    display: none;
+    animation: slideUp 0.5s ease forwards;
+}
+
+@keyframes slideUp {
+    0% {
+        opacity: 0;
+        transform: translateY(100%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/**/
+
+.ECB {
+    background-color: #ff5e00;
+    text-align: center;
+    padding: 10px;
+    border-radius: 10px;
+    position: fixed; 
+    bottom: 20px; 
+    right: 20px; 
+}
+.remove-event-button {
+    background-color: #ff5e00;
+    text-align: center;
+    padding: 10px;
+    border-radius: 10px;
+    position: relative;
+    
+}
+.event-img {
+    margin-top: 10px;
+    margin-left: 20px;
+    position: center;
+}
+
+.tab {
+    position: fixed;
+    left: -300px; /* Initially hide the tab */
+    top: 0; /* Adjusted to start from the top of the window */
+    bottom: 0; /* Adjusted to end at the bottom of the window */
+    background-color: #f4f4f4;
+    padding: 20px;
+    transition: left 0.3s ease-in-out;
+    z-index: 1000;
+    width: 250px; /* Set the width of the tab */
+}
+
+.tab-content {
+    overflow-y: auto;
+    max-height: calc(100vh - 40px); /* Adjusted to consider padding */
+}
+
+.tab-toggle {
+    position: fixed;
+    left: 0;
+    top: 50%;
+    transform: translateY(50%);
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.tab-toggle:hover {
+    background-color: #555;
+}
+

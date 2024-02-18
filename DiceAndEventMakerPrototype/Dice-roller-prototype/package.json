@@ -1,0 +1,16 @@
+{
+  "name": "firstpackage",
+  "version": "1.0.0",
+  "description": "draft prototype",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ali Qattan",
+  "license": "UML",
+  "devDependencies": {
+    "@electron-forge/cli": "^7.2.0",
+    "electron": "^28.2.3"
+  }
+}
