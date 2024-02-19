@@ -22,7 +22,7 @@ class EventNode {
         return levels
     }
 
-    toString(){ // convert tree to a string. indentation depth reflects the tree's actual depth 
+    toString(){ // convert tree to a string. indentation depth for each node reflects its actual depth 
         let s = ""
         this.#preorder(
             (node, depth) => {s = s.concat(`${' '.repeat(2*depth)}${node.name}\n`)}
