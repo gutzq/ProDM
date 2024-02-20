@@ -5,7 +5,7 @@ class EventNode {
     outcomes = new Map()
     
     addEvent(eventNode){
-        this.outcomes.set(eventNode.name) = eventNode
+        this.outcomes.set(eventNode.name, eventNode)
     }
 
     removeEvent(eventNodeName){
