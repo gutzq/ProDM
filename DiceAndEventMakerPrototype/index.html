@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>My Electron App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Dragon Container -->
+<div id="dragon-container">
+    <button id="dragon-button">
+        <img id="dragon" src="assets/dragon.png" alt="Dragon">
+    </button>
+    <!-- Dice Container -->
+    <div id="dice-container" class="hidden">
+        <div class="button-row">
+            <button class="image-button" onclick="addDie('D4')">
+                <img src="assets/d4.png" alt="D4">
+            </button>
+            <button class="image-button" onclick="addDie('D6')">
+                <img src="assets/d6.png" alt="D6">
+            </button>
+            <button class="image-button" onclick="addDie('D8')">
+                <img src="assets/d8.png" alt="D8">
+            </button>
+            <button class="image-button" onclick="addDie('D10')">
+                <img src="assets/d10.png" alt="D10">
+            </button>
+            <button class="image-button" onclick="addDie('D12')">
+                <img src="assets/d12.png" alt="D12">
+            </button>
+            <button class="image-button" onclick="addDie('D20')">
+                <img src="assets/d20.png" alt="D20">
+            </button>
+            <button class="image-button" onclick="addDie('D100')">
+                <img src="assets/d100.png" alt="D100">
+            </button>
+        </div>
+        <button id="rollButton" onclick="rollDice()">Roll</button>
+    </div>
+</div>
+    <div id="event-cards-container"></div> 
+    <!-- Sword Container -->
+    <div id="sword-container">
+        <img id="sword" src="assets/sword1.png" alt="Sword">
+    </div>
+
+    <!-- Pulltab Container -->
+    <div id="pulltab-container">
+        <img id="pulltab" src="assets/pulltab.png" alt="Pull Tab">
+    </div>
+
+    <!-- Scene Menu Container -->
+    <div id="scene-menu-container">
+        <img id="scene-menu" src="assets/scenemenu.png" alt="Scene Menu">
+    </div>
+
+    <!-- Arrow Button -->
+    <button id="up-arrow-button">
+        <img id="up-arrow" src="assets/arrow.png" alt="Up Arrow">
+    </button>
+    <!-- Down Arrow Button -->
+    <button id="down-arrow-button">
+        <img id="down-arrow" src="assets/Arrow.png" alt="Down Arrow">
+    </button>
+    <button id="plus-button">
+        <img id="plus" src="assets/plus.png" alt="Plus">
+    </button>
+    <!-- Event Maker Button -->
+    <button id="event-maker-button">Event Maker</button>
+
+    <!-- Modal -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Create Event</h2>
+            <form id="event-form">
+                <label for="title">Title:</label><br>
+                <input type="text" id="title" name="title" required><br>
+                <label for="narration">Narration:</label><br>
+                <textarea id="narration" name="narration" rows="4" required></textarea><br>
+                <label for="image">Upload Image:</label><br>
+                <input type="file" id="image" name="image" accept="image/*" required><br>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+    <div id="result"></div>
+
+
+    <script src="renderer.js"></script>
+</body>
+
+</html>
