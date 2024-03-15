@@ -17,7 +17,8 @@
     "electron-builder": "^24.13.3",
     "jsdom": "^24.0.0",
     "mocha": "^10.3.0",
-    "spectron": "^19.0.0"
+    "spectron": "^19.0.0",
+    "typescript": "^5.4.2"
   },
   "build": {
     "appId": "com.ProGM.app",
