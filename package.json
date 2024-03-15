@@ -2,7 +2,7 @@
   "name": "DEMO",
   "version": "1.0.0",
   "description": "draft prototype",
-  "main": "main.js",
+  "main": "main.ts",
   "scripts": {
     "start": "electron .",
     "test": "mocha --experimental-modules *.mjs",
@@ -12,6 +12,7 @@
   "license": "UML",
   "devDependencies": {
     "@electron-forge/cli": "^7.2.0",
+    "@types/electron": "^1.6.10",
     "chai": "^5.1.0",
     "electron": "^28.2.7",
     "electron-builder": "^24.13.3",
