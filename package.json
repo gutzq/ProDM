@@ -1,0 +1,31 @@
+{
+  "name": "DEMO",
+  "version": "1.0.0",
+  "description": "draft prototype",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "mocha --experimental-modules *.mjs",
+    "dist": "electron-builder --publish never"
+  },
+  "author": "Ali Qattan",
+  "license": "UML",
+  "devDependencies": {
+    "@electron-forge/cli": "^7.2.0",
+    "chai": "^5.1.0",
+    "electron": "^28.2.7",
+    "electron-builder": "^24.13.3",
+    "jsdom": "^24.0.0",
+    "mocha": "^10.3.0",
+    "spectron": "^19.0.0"
+  },
+  "build": {
+    "appId": "com.ProGM.app",
+    "productName": "ProGM",
+    "target": "nsis",
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  }
+}
