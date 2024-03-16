@@ -27,8 +27,8 @@ const createWindow = (): void => {
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
   
-  let tree = new EventNode("First")
-  tree.addEvent
+  // let tree = new EventNode("First")
+  // tree.addEvent
 
 };
 
