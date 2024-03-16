@@ -35,8 +35,11 @@ class EventNode {
         return s
     }
 
-    private invariant(): Boolean {
-        return true
+    private invariant(recentNode: EventNode): Boolean { // what must be true after every insertion
+        let visitedNodes = new Set<EventNode>([recentNode])
+        this.preorder((node, depth) => {
+            
+        })
     }
 
     private preorder(apply: (atNode: EventNode, depth: number) => void){ // preorder traversal with depth tracking
