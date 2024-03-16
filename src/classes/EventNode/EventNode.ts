@@ -1,19 +1,19 @@
 const DELIMITER_LEN = 2
 const DELIMITER = ' '
 
-class EventNode {
-    name: String;
+export class EventNode {
+    readonly name: String;
     outcomes = new Map()
 
     constructor(name: String){
         this.name = name
     }
     
-    addEvent(eventNode: EventNode){
+    add(eventNode: EventNode){
         this.outcomes.set(eventNode.name, eventNode)
     }
 
-    removeEvent(eventName: String){
+    remove(eventName: String){
         this.outcomes.delete(eventName)
     }
 
@@ -35,6 +35,14 @@ class EventNode {
         return s
     }
 
+    private invariant(recentNode: EventNode): Boolean { // what must be true after every insertion. in the case of a tree, no cycles
+        let visitedNodes = new Set<EventNode>([recentNode])
+        // this.preorder((node, depth) => {
+            
+        // })
+        return true
+    }
+
     private preorder(apply: (atNode: EventNode, depth: number) => void){ // preorder traversal with depth tracking
         const helper = (depth: number) => {
             depth = depth ? depth : 0
@@ -47,6 +55,5 @@ class EventNode {
         }
         helper(0)
     }
-}
 
-module.exports = EventNode;
+}
