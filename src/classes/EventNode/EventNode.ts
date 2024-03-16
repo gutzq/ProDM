@@ -1,3 +1,6 @@
+const DELIMITER_LEN = 2
+const DELIMITER = ' '
+
 class EventNode {
     name: String;
     outcomes = new Map()
@@ -27,7 +30,7 @@ class EventNode {
     toString(): String { // represent tree as string. shows overall structure. indentation depth for each node reflects its actual depth 
         let s = ""
         this.preorder(
-            (node, depth) => {s = s.concat(`${' '.repeat(2*depth)}${node.name}\n`)}
+            (node, depth) => {s = s.concat(`${DELIMITER.repeat(DELIMITER_LEN * depth)}${node.name}\n`)}
         )
         return s
     }
@@ -45,3 +48,5 @@ class EventNode {
         helper(0)
     }
 }
+
+module.exports = EventNode;
