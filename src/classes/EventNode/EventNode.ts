@@ -2,7 +2,7 @@ const DELIMITER_LEN = 2
 const DELIMITER = ' '
 
 class EventNode {
-    name: String;
+    readonly name: String;
     outcomes = new Map()
 
     constructor(name: String){
@@ -33,6 +33,10 @@ class EventNode {
             (node, depth) => {s = s.concat(`${DELIMITER.repeat(DELIMITER_LEN * depth)}${node.name}\n`)}
         )
         return s
+    }
+
+    private invariant(): Boolean {
+        return true
     }
 
     private preorder(apply: (atNode: EventNode, depth: number) => void){ // preorder traversal with depth tracking
