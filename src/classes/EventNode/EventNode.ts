@@ -1,5 +1,5 @@
-const DELIMITER_LEN = 2
-const DELIMITER = ' '
+const DELIMITER_LEN = 1;
+const DELIMITER = '\t';
 
 class CycleViolationInTreeError extends Error {}
 
@@ -7,20 +7,20 @@ export class EventNode {
     readonly name: String;
     outcomes = new Map();
 
-    constructor(name: String){
+    constructor(name: String) {
         this.name = name;
     }
     
-    add(newEvent: EventNode){
+    add(newEvent: EventNode) {
         this.invariant(newEvent);
         this.outcomes.set(newEvent.name, newEvent);
     }
 
-    remove(newEvent: String){
+    remove(newEvent: String) {
         this.outcomes.delete(newEvent);
     }
 
-    generateLevels(){ // organize nodes by depth where array idx is depth, and array members are nodes at that depth
+    generateLevels() { // organize nodes by depth where array idx is depth, and array members are nodes at that depth
         let levels = new Array();
         this.preorder(
             (node, depth) => {
@@ -33,7 +33,7 @@ export class EventNode {
     toString(): String { // represent tree as string. shows overall structure. indentation depth for each node reflects its actual depth 
         let s = "";
         this.preorder(
-            (node, depth) => {s = s.concat(`${DELIMITER.repeat(DELIMITER_LEN * depth)}${node.name}\n`)}
+            (node, depth) => {s = s.concat(`${DELIMITER.repeat(depth * DELIMITER_LEN)}${node.name}\n`)}
         );
         return s;
     }
@@ -55,7 +55,7 @@ export class EventNode {
         const helper = (depth: number) => {
             depth = depth ? depth : 0;
             apply(this, depth);
-            if (this.outcomes.size > 0){
+            if (this.outcomes.size > 0) {
                 for (const outcome of this.outcomes.values()) {
                     outcome.preorder(apply, depth + 1);
                 }
