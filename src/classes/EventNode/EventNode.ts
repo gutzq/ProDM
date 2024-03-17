@@ -1,4 +1,3 @@
-const DELIMITER_LEN = 1;
 const DELIMITER = '\t';
 
 class CycleViolationInTreeError extends Error {}
@@ -33,7 +32,7 @@ export class EventNode {
     toString(): String { // represent tree as string. shows overall structure. indentation depth for each node reflects its actual depth 
         let s = '';
         this.preorder(
-            (node, depth) => {s = s.concat(`${DELIMITER.repeat(depth * DELIMITER_LEN)}${node.name}\n`)}
+            (node, depth) => {s = s.concat(`${DELIMITER.repeat(depth)}${node.name}\n`)}
         );
         return s;
     }

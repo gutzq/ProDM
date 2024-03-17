@@ -29,6 +29,6 @@ describe('EventNode behavior testing:', () => {
         expect(root.outcomes.size).toBe(2);
     })
     test('EventNode should have proper tree structure.', () => {
-        expect(root.toString()).toBe('Node0\n\tNode1\n\tNode2\n\t\tNode2\n');
+        expect(root.toString()).toBe('Node0\n\tNode1\n\tNode2\n\t\tNode21\n');
     })
 })
