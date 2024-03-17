@@ -138,7 +138,7 @@
   }
   
   body {
-    background-image: url('assets/map.png');
+    background-image: url('../assets/map.png');
     background-size: cover;
     background-position: top left;
     background-repeat: no-repeat;

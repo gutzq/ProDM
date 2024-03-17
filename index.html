@@ -4,38 +4,38 @@
 <head>
     <meta charset="UTF-8">
     <title>Prototype</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="./src/renderer/styles.css">
 </head>
 
 <body>
     <!-- Dragon Container -->
 <div id="dragon-container">
     <button id="dragon-button">
-        <img id="dragon" src="assets/dragon.png" alt="Dragon">
+        <img id="dragon" src="./src/assets/dragon.png" alt="Dragon">
     </button>
     <!-- Dice Container -->
     <div id="dice-container" class="hidden">
         <div class="button-row">
             <button class="image-button" onclick="addDie('D4')">
-                <img src="assets/d4.png" alt="D4">
+                <img src="./src/assets/d4.png" alt="D4">
             </button>
             <button class="image-button" onclick="addDie('D6')">
-                <img src="assets/d6.png" alt="D6">
+                <img src="./src/assets/d6.png" alt="D6">
             </button>
             <button class="image-button" onclick="addDie('D8')">
-                <img src="assets/d8.png" alt="D8">
+                <img src="./src/assets/d8.png" alt="D8">
             </button>
             <button class="image-button" onclick="addDie('D10')">
-                <img src="assets/d10.png" alt="D10">
+                <img src="./src/assets/d10.png" alt="D10">
             </button>
             <button class="image-button" onclick="addDie('D12')">
-                <img src="assets/d12.png" alt="D12">
+                <img src="./src/assets/d12.png" alt="D12">
             </button>
             <button class="image-button" onclick="addDie('D20')">
-                <img src="assets/d20.png" alt="D20">
+                <img src="./src/assets/d20.png" alt="D20">
             </button>
             <button class="image-button" onclick="addDie('D100')">
-                <img src="assets/d100.png" alt="D100">
+                <img src="./src/assets/d100.png" alt="D100">
             </button>
         </div>
         <button id="rollButton" onclick="rollDice()">Roll</button>
@@ -44,29 +44,29 @@
     <div id="event-cards-container"></div> 
     <!-- Sword Container -->
     <div id="sword-container">
-        <img id="sword" src="assets/sword1.png" alt="Sword">
+        <img id="sword" src="./src/assets/sword1.png" alt="Sword">
     </div>
 
     <!-- Pulltab Container -->
     <div id="pulltab-container">
-        <img id="pulltab" src="assets/pulltab.png" alt="Pull Tab">
+        <img id="pulltab" src="./src/assets/pulltab.png" alt="Pull Tab">
     </div>
 
     <!-- Scene Menu Container -->
     <div id="scene-menu-container">
-        <img id="scene-menu" src="assets/scenemenu.png" alt="Scene Menu">
+        <img id="scene-menu" src="./src/assets/scenemenu.png" alt="Scene Menu">
     </div>
 
     <!-- Arrow Button -->
     <button id="up-arrow-button">
-        <img id="up-arrow" src="assets/Arrow.png" alt="Up Arrow">
+        <img id="up-arrow" src="./src/assets/Arrow.png" alt="Up Arrow">
     </button>
     <!-- Down Arrow Button -->
     <button id="down-arrow-button">
-        <img id="down-arrow" src="assets/Arrow.png" alt="Down Arrow">
+        <img id="down-arrow" src="./src/assets/Arrow.png" alt="Down Arrow">
     </button>
     <button id="plus-button">
-        <img id="plus" src="assets/plus.png" alt="Plus">
+        <img id="plus" src="./src/assets/plus.png" alt="Plus">
     </button>
     <!-- Event Maker Button -->
     <button id="event-maker-button">Event Maker</button>
@@ -90,7 +90,217 @@
     <div id="result"></div>
 
 
-    <script src="renderer.js"></script>
+    <script>
+        const swordImg = document.getElementById('sword');
+const swordContainer = document.getElementById('sword-container');
+
+let isSwordDropped = false;
+
+swordImg.addEventListener('click', handleSwordClick);
+
+function handleSwordClick() {
+  if (isSwordDropped) {
+    retractSword();
+  } else {
+    dropSword();
+  }
+}
+
+function dropSword() {
+  swordImg.classList.add('dropped');
+  isSwordDropped = true;
+}
+
+function retractSword() {
+  swordImg.classList.remove('dropped');
+  swordImg.classList.add('retracted');
+  setTimeout(() => {
+    swordImg.classList.remove('retracted');
+    isSwordDropped = false;
+  }, 1000);
+}
+
+const pullTab = document.getElementById('pulltab-container');
+
+let isTabOpen = false;
+
+pullTab.addEventListener('click', handleTabClick);
+
+function handleTabClick() {
+  if (isTabOpen) {
+    closeTab();
+  } else {
+    openTab();
+  }
+}
+
+function openTab() {
+  pullTab.classList.add('open');
+  isTabOpen = true;
+}
+
+function closeTab() {
+  pullTab.classList.remove('open');
+  isTabOpen = false;
+}
+
+
+const sceneMenuContainer = document.getElementById('scene-menu-container');
+
+function handleTabClick() {
+  if (isTabOpen) {
+    closeTabAndMenu();
+  } else {
+    openTabAndMenu();
+  }
+}
+
+function openTabAndMenu() {
+  pullTab.classList.add('open');
+  sceneMenuContainer.classList.add('open'); 
+  isTabOpen = true;
+}
+
+function closeTabAndMenu() {
+  pullTab.classList.remove('open');
+  sceneMenuContainer.classList.remove('open');
+  isTabOpen = false;
+}
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const dragonButton = document.getElementById('dragon-button');
+    const diceContainer = document.getElementById('dice-container');
+
+    dragonButton.addEventListener('click', () => {
+        // Toggle the "active" class on click
+        dragonButton.classList.toggle('active');
+
+        // Toggle the visibility of the dice container
+        diceContainer.classList.toggle('hidden');
+        diceContainer.classList.toggle('visible');
+    });
+});
+
+// Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("event-maker-button");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+// Form submission handling
+var form = document.getElementById("event-form");
+form.addEventListener("submit", function(event) {
+  event.preventDefault(); // Prevent default form submission
+
+  // Retrieve form data
+  var title = document.getElementById("title").value;
+  var narration = document.getElementById("narration").value;
+  var image = document.getElementById("image").files[0];
+
+  // Close the modal
+  modal.style.display = "none";
+});
+
+
+let selectedDice = {};
+
+function addDie(die, selectedDice, document) {
+  if (!selectedDice[die]) {
+      selectedDice[die] = 1;
+  } else {
+      selectedDice[die]++;
+  }
+  updateSelectedDiceDisplay(selectedDice, document);
+  document.getElementById("rollButton").style.display = "block";
+}
+
+
+function updateSelectedDiceDisplay() {
+    let selectedDiceDisplay = [];
+    for (const die in selectedDice) {
+        selectedDiceDisplay.push(`${selectedDice[die]}${die}`);
+    }
+    document.getElementById("result").innerText = `Rolling: ${selectedDiceDisplay.join(' + ')}`;
+}
+
+function rollDice() {
+  let totalResult = 0;
+  for (const die in selectedDice) {
+      switch (die) {
+          case 'D4':
+              totalResult += rollNDice(selectedDice[die], 4);
+              break;
+          case 'D6':
+              totalResult += rollNDice(selectedDice[die], 6);
+              break;
+          case 'D8':
+              totalResult += rollNDice(selectedDice[die], 8);
+              break;
+          case 'D10':
+              totalResult += rollNDice(selectedDice[die], 10);
+              break;
+          case 'D12':
+              totalResult += rollNDice(selectedDice[die], 12);
+              break;
+          case 'D20':
+              totalResult += rollNDice(selectedDice[die], 20);
+              break;
+          case 'D100':
+              totalResult += rollNDice(selectedDice[die], 100);
+              break;
+          default:
+              break;
+      }
+  }
+  document.getElementById("result").innerText = `Total Result: ${totalResult}`;
+  selectedDice = {};
+  document.getElementById("rollButton").style.display = "none";
+}
+
+function rollNDice(n, sides) {
+  let result = 0;
+  for (let i = 0; i < n; i++) {
+      result += Math.floor(Math.random() * sides) + 1;
+  }
+  return result;
+}
+
+
+
+const plusButton = document.getElementById('plus-button');
+const eventCardsContainer = document.getElementById('event-cards-container');
+
+plusButton.addEventListener('click', () => {
+  const eventCardsImg = document.createElement('img');
+  eventCardsImg.src = './src/assets/eventCards.png';
+  eventCardsImg.alt = 'Event Cards';
+
+  eventCardsContainer.innerHTML = '';
+  eventCardsContainer.appendChild(eventCardsImg);
+  eventCardsContainer.style.display = eventCardsContainer.style.display === 'none' ? 'block' : 'none';
+});
+    </script>
 </body>
 
 </html>
