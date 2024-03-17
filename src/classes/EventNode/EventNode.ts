@@ -5,7 +5,7 @@ class CycleViolationInTreeError extends Error {}
 
 export class EventNode {
     readonly name: String;
-    outcomes = new Map();
+    outcomes: Map<String, EventNode> = new Map();
 
     constructor(name: String) {
         this.name = name;
@@ -50,18 +50,14 @@ export class EventNode {
         }
         return !hasCycle;
     }
-    //TODO: make this a generator
-    private preorder(apply: (atNode: EventNode, depth: number) => void){ // preorder traversal with depth tracking
-        const helper = (depth: number) => {
-            depth = depth ? depth : 0;
-            apply(this, depth);
-            if (this.outcomes.size > 0) {
-                for (const outcome of this.outcomes.values()) {
-                    outcome.preorder(apply, depth + 1);
-                }
+    //TODO: make this a generator, figure out how to hide recursive parameter
+    private preorder(apply: (atNode: EventNode, depth: number) => void, depth: number = 0){ // preorder traversal with depth tracking
+        apply(this, depth);
+        if (this.outcomes.size > 0) {
+            for (const outcome of this.outcomes.values()) {
+                outcome.preorder(apply, depth + 1);
             }
         }
-        helper(0);
     }
 
 }
