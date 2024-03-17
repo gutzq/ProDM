@@ -16,7 +16,7 @@ export class EventNode {
         this.outcomes.set(newEvent.name, newEvent);
     }
 
-    remove(newEvent: String) {
+    remove(newEvent: String) { // add and remove accept different types. TODO: possible redesign?
         this.outcomes.delete(newEvent);
     }
 
@@ -31,7 +31,7 @@ export class EventNode {
     }
 
     toString(): String { // represent tree as string. shows overall structure. indentation depth for each node reflects its actual depth 
-        let s = "";
+        let s = '';
         this.preorder(
             (node, depth) => {s = s.concat(`${DELIMITER.repeat(depth * DELIMITER_LEN)}${node.name}\n`)}
         );
