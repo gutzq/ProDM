@@ -28,7 +28,7 @@ jobs:
       #  run: npm test
         
       - name: Build Electron App
-        run: npm run dist
+        run: npm run build
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
