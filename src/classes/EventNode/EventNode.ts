@@ -1,6 +1,6 @@
 const DELIMITER = '\t';
 
-class CycleViolation extends Error {}
+class InvariantViolation extends Error {}
 
 export class EventNode {
     readonly name: String;
@@ -11,6 +11,7 @@ export class EventNode {
     }
     
     add(newEvent: EventNode) {
+        this.invariant(newEvent);
         this.outcomes.set(newEvent.name, newEvent);
     }
 
@@ -37,6 +38,18 @@ export class EventNode {
             s = s.concat(`${DELIMITER.repeat(depth)}${outcome.name}\n`)
         }
         return s;
+    }
+
+    private invariant(newest: EventNode): void { // for a connected tree, the number of connections is always one less than the number of nodes.
+        let numNodes = 1;
+        let numConnections = newest.outcomes.size + 1;
+        for (const [outcome, _] of this) {
+            numNodes++;
+            numConnections += outcome.outcomes.size;
+        }
+        if (numConnections != numNodes - 1) {
+            throw new InvariantViolation(`Invariant violation detected.`); // TODO: make this error more descriptive
+        }
     }
 
     private *preorder(depth: number = 0): Generator<[EventNode, number], void, void>{ // preorder traversal with depth tracking
