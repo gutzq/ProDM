@@ -36,14 +36,6 @@ export class EventNode {
         return levels;
     }
 
-    toString(): String { // represent tree as string. shows overall structure. indentation depth for each node reflects its actual depth 
-        let s = '';
-        for (const [outcome, depth] of this) {
-            s = s.concat(`${DELIMITER.repeat(depth)}${outcome.name}\n`)
-        }
-        return s;
-    }
-
     getSize(): [number, number] { // returns total number of nodes and connections
         let [numNodes, numConnections] = [0,0];
         for (const [outcome, _] of this) {
@@ -53,32 +45,23 @@ export class EventNode {
         return [numNodes, numConnections];
     }
 
-    // private invariant(newest: EventNode): void { // for a connected tree, the number of connections is always one less than the number of nodes.
-    //     let numNodes = 1;
-    //     let numConnections = newest.outcomes.size + 1;
-    //     for (const [outcome, _] of this) {
-    //         numNodes++;
-    //         numConnections += outcome.outcomes.size;
-    //     }
-    //     if (numConnections != numNodes - 1) {
-    //         throw new InvariantViolation(`Invariant violation detected.`); // TODO: make this error more descriptive
-    //     }
-    // }
+    toString(): String { // represent tree as string. shows overall structure. indentation depth for each node reflects its actual depth 
+        let s = '';
+        for (const [outcome, depth] of this) {
+            s = s.concat(`${DELIMITER.repeat(depth)}${outcome.name}\n`)
+        }
+        return s;
+    }
 
     private invariant(newest: EventNode): void { // for a connected tree, the number of connections is always one less than the number of nodes.
         let [numNodes, numConnections] = this.getSize();
         numNodes += 1; //newest counts as one
         numConnections += newest.outcomes.size; // newest may have connections as well
-        for (const [outcome, _] of this) {
-            numNodes++;
-            numConnections += outcome.outcomes.size;
-        }
+
         if (numConnections != numNodes - 1) {
-            throw new InvariantViolation(`Invariant violation detected.`); // TODO: make this error more descriptive
+            throw new InvariantViolation(`An invariant violation has occurred with the addition of ${newest.name} to ${this.name}.`); // TODO: make this error more descriptive
         }
     }
-
-
 
     private *preorder(depth: number = 0): Generator<[EventNode, number], void, void>{ // preorder traversal with depth tracking
         yield [this, depth];
