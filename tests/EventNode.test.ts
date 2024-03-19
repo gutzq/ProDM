@@ -27,8 +27,15 @@ describe('EventNode behavior testing:', () => {
 
     test(`EventNode should have ${2} immediate children after additions.`, () =>{
         expect(root.outcomes.size).toBe(2);
-    })
+    });
+
     test('EventNode should have proper tree structure.', () => {
         expect(root.toString()).toBe('Node0\n\tNode1\n\tNode2\n\t\tNode21\n');
-    })
+    });
+
+    test('EventNode\'s invariant should throw for invalid addition.', () => {
+        expect(() => {
+            node1.add(node21)
+        }).toThrow(new Error(`Addition of ${node21.name} has caused a cycle.`));
+    });
 })
