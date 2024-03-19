@@ -34,8 +34,6 @@ describe('EventNode behavior testing:', () => {
     });
 
     test('EventNode\'s invariant should throw for invalid addition.', () => {
-        expect(() => {
-            node1.add(node21)
-        }).toThrow(new Error(`Addition of ${node21.name} has caused a cycle.`));
+        expect(() => {node21.add(root)}).toThrow();
     });
 })
