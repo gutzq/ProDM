@@ -33,7 +33,7 @@ describe('EventNode behavior testing:', () => {
         expect(root.toString()).toBe('Node0\n\tNode1\n\tNode2\n\t\tNode21\n');
     });
 
-    test('EventNode\'s invariant should throw for invalid addition.', () => {
+    test('EventNode\'s invariant should throw for invalid node addition.', () => {
         expect(() => {node21.add(root)}).toThrow();
     });
 })
