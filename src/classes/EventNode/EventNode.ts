@@ -13,7 +13,7 @@ export class EventNode {
     
     add(newEvent: EventNode) {
         if (newEvent === this){
-            throw new SelfLoopViolation("Attempt to add a self loop.")
+            throw new SelfLoopViolation(`Attempt to add a self loop on ${this.name}.`)
         }
         this.invariant(newEvent);
         return this.outcomes.set(newEvent.name, newEvent);
@@ -48,7 +48,7 @@ export class EventNode {
     toString(): String { // represent tree as string. shows overall structure. indentation depth for each node reflects its actual depth 
         let s = '';
         for (const [outcome, depth] of this) {
-            s = s.concat(`${DELIMITER.repeat(depth)}${outcome.name}\n`)
+            s = s.concat(`${DELIMITER.repeat(depth)}${outcome.name}\n`);
         }
         return s;
     }
@@ -56,9 +56,9 @@ export class EventNode {
     private invariant(newest: EventNode): void { // for a connected tree, the number of connections is always one less than the number of nodes.
         let [numNodes, numConnections] = this.getSize();
         numNodes += 1; //newest counts as one
-        numConnections += newest.outcomes.size; // newest may have connections as well
+        numConnections += newest.outcomes.size + 1; // newest may have connections as well, plus 1 for a simulated connection
 
-        if (numConnections != numNodes - 1) {
+        if (numConnections != numNodes - 1) { // |E| = |V| - 1
             throw new InvariantViolation(`An invariant violation has occurred with the addition of ${newest.name} to ${this.name}.`); // TODO: make this error more descriptive
         }
     }
