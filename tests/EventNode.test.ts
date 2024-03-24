@@ -7,10 +7,11 @@ describe('EventNode upon initialization:', () => {
     
     test('Children should be zero.', () => {        
         expect(node.outcomes.size).toBe(0);
-    }),
+    });
+
     test(`EventNode.name should return ${mockName}.`, () => {
         expect(node.name).toBe(mockName);
-    })
+    });
 })
 
 describe('EventNode behavior testing:', () => {
