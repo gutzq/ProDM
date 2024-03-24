@@ -8,8 +8,8 @@ export class DiceRoller {
     constructor(numSides: number, weights?: Array<number>) {
         this.sides = numSides;
         this.pmf = weights ? weights : new Array(numSides).fill(1/numSides)
-        let normalSum = this.pmf.reduce((acc, curr) => {return acc + curr;})
-        if (Math.abs(1 - normalSum) >= 0.01) {
+        let unitSum = this.pmf.reduce((acc, x) => acc + x)
+        if (Math.abs(1 - unitSum) >= 0.01) {
             throw new NormalizationError("Sum of weights does not equal 1.");
         }
         this.cdf = this.pmf.map((sum => value => sum += value)(0));
