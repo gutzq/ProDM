@@ -1,4 +1,5 @@
 import { EventNode } from "../src/classes/EventNode/EventNode"
+
 let mockName = "Node";
 
 describe('EventNode upon initialization:', () => {
