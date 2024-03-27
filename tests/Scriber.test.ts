@@ -1,5 +1,5 @@
+import * as fs from 'fs';
 import { Character } from "../src/classes/Character/Character";
-import { CharacterStats, Stat } from "../src/classes/Character/CharacterStats";
 import { Scriber } from "../src/classes/Scriber/Scriber";
 
 let scribe = new Scriber('./files');
@@ -12,10 +12,15 @@ describe('Scriber saving character data', () => {
     let Euler = new Character('Euler');
     let Newton = new Character('Newton');
 
-    Euler.stats.set(Stat.INT, Math.floor(Math.exp(1)));
+    test('Scriber should save with no errors.', () => {
+        expect(() => {
+            scribe.saveCharacter(Euler);
+        }).not.toThrow();
+    });
 
-    scribe.saveCharacter(Euler);
-    scribe.saveCharacter(Newton);
-
-    test.todo('test validity');
+    test('Scriber should save again with no errors.', () => {
+        expect(() => {
+            scribe.saveCharacter(Newton);
+        }).not.toThrow();
+    });
 });
