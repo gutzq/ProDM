@@ -5,46 +5,82 @@
     <meta charset="UTF-8">
     <title>Prototype</title>
     <link rel="stylesheet" href="./src/renderer/styles.css">
+    <style>
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 30%;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <body>
     <!-- Dragon Container -->
-<div id="dragon-container">
-    <button id="dragon-button">
-        <img id="dragon" src="./src/assets/dragon.png" alt="Dragon">
-    </button>
-    <!-- Dice Container -->
-    <div id="dice-container" class="hidden">
-        <div class="button-row">
-            <button class="image-button" onclick="addDie('D4')">
-                <img src="./src/assets/d4.png" alt="D4">
-            </button>
-            <button class="image-button" onclick="addDie('D6')">
-                <img src="./src/assets/d6.png" alt="D6">
-            </button>
-            <button class="image-button" onclick="addDie('D8')">
-                <img src="./src/assets/d8.png" alt="D8">
-            </button>
-            <button class="image-button" onclick="addDie('D10')">
-                <img src="./src/assets/d10.png" alt="D10">
-            </button>
-            <button class="image-button" onclick="addDie('D12')">
-                <img src="./src/assets/d12.png" alt="D12">
-            </button>
-            <button class="image-button" onclick="addDie('D20')">
-                <img src="./src/assets/d20.png" alt="D20">
-            </button>
-            <button class="image-button" onclick="addDie('D100')">
-                <img src="./src/assets/d100.png" alt="D100">
-            </button>
+    <div id="dragon-container">
+        <button id="dragon-button">
+            <img id="dragon" src="./src/assets/dragon.png" alt="Dragon">
+        </button>
+        <!-- Dice Container -->
+        <div id="dice-container" class="hidden">
+            <div class="button-row">
+                <button class="image-button" onclick="addDie('D4')">
+                    <img src="./src/assets/d4.png" alt="D4">
+                </button>
+                <button class="image-button" onclick="addDie('D6')">
+                    <img src="./src/assets/d6.png" alt="D6">
+                </button>
+                <button class="image-button" onclick="addDie('D8')">
+                    <img src="./src/assets/d8.png" alt="D8">
+                </button>
+                <button class="image-button" onclick="addDie('D10')">
+                    <img src="./src/assets/d10.png" alt="D10">
+                </button>
+                <button class="image-button" onclick="addDie('D12')">
+                    <img src="./src/assets/d12.png" alt="D12">
+                </button>
+                <button class="image-button" onclick="addDie('D20')">
+                    <img src="./src/assets/d20.png" alt="D20">
+                </button>
+                <button class="image-button" onclick="addDie('D100')">
+                    <img src="./src/assets/d100.png" alt="D100">
+                </button>
+            </div>
+            <button id="rollButton" onclick="rollDice()">Roll</button>
         </div>
-        <button id="rollButton" onclick="rollDice()">Roll</button>
     </div>
-</div>
-    <div id="event-cards-container"></div> 
+    <div id="event-cards-container"></div>
     <!-- Sword Container -->
     <div id="sword-container">
-        <img id="sword" src="./src/assets/sword1.png" alt="Sword">
+        <img id="sword" src="./src/assets/sword.png" alt="Sword">
     </div>
 
     <!-- Pulltab Container -->
@@ -54,8 +90,20 @@
 
     <!-- Scene Menu Container -->
     <div id="scene-menu-container">
-        <img id="scene-menu" src="./src/assets/scenemenu.png" alt="Scene Menu">
-    </div>
+      <img id="scene-menu" src="./src/assets/scenemenu.png" alt="Scene Menu">
+      <div id="scenario-container">
+          <div class="scenario">
+              <h3 class="scenario-title">Scenario 1</h3>
+              <p class="scenario-narration">This is the narration for Scenario 1.</p>
+              <img class="scenario-image" src="./src/assets/scenario1.jpg" alt="Scenario 1 Image">
+          </div>
+          <div class="scenario">
+              <h3 class="scenario-title">Scenario 2</h3>
+              <p class="scenario-narration">This is the narration for Scenario 2.</p>
+              <img class="scenario-image" src="./src/assets/scenario1.jpg" alt="Scenario 2 Image">
+          </div>
+      </div>
+  </div>
 
     <!-- Arrow Button -->
     <button id="up-arrow-button">
@@ -87,219 +135,263 @@
             </form>
         </div>
     </div>
-    <div id="result"></div>
 
+    <!-- History Modal -->
+    <div id="historyModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Roll History</h2>
+            <ul id="historyList"></ul>
+        </div>
+    </div>
+
+    <div id="result" onclick="showHistory()"></div>
 
     <script>
         const swordImg = document.getElementById('sword');
-const swordContainer = document.getElementById('sword-container');
+        const swordContainer = document.getElementById('sword-container');
 
-let isSwordDropped = false;
+        let isSwordDropped = false;
 
-swordImg.addEventListener('click', handleSwordClick);
+        swordImg.addEventListener('click', handleSwordClick);
 
-function handleSwordClick() {
-  if (isSwordDropped) {
-    retractSword();
-  } else {
-    dropSword();
-  }
-}
+        function handleSwordClick() {
+            if (isSwordDropped) {
+                retractSword();
+            } else {
+                dropSword();
+            }
+        }
 
-function dropSword() {
-  swordImg.classList.add('dropped');
-  isSwordDropped = true;
-}
+        function dropSword() {
+            swordImg.classList.add('dropped');
+            isSwordDropped = true;
+        }
 
-function retractSword() {
-  swordImg.classList.remove('dropped');
-  swordImg.classList.add('retracted');
-  setTimeout(() => {
-    swordImg.classList.remove('retracted');
-    isSwordDropped = false;
-  }, 1000);
-}
+        function retractSword() {
+            swordImg.classList.remove('dropped');
+            swordImg.classList.add('retracted');
+            setTimeout(() => {
+                swordImg.classList.remove('retracted');
+                isSwordDropped = false;
+            }, 1000);
+        }
 
-const pullTab = document.getElementById('pulltab-container');
+        const pullTab = document.getElementById('pulltab-container');
 
-let isTabOpen = false;
+        let isTabOpen = false;
 
-pullTab.addEventListener('click', handleTabClick);
+        pullTab.addEventListener('click', handleTabClick);
 
-function handleTabClick() {
-  if (isTabOpen) {
-    closeTab();
-  } else {
-    openTab();
-  }
-}
+        function handleTabClick() {
+            if (isTabOpen) {
+                closeTab();
+            } else {
+                openTab();
+            }
+        }
 
-function openTab() {
-  pullTab.classList.add('open');
-  isTabOpen = true;
-}
+        function openTab() {
+            pullTab.classList.add('open');
+            isTabOpen = true;
+        }
 
-function closeTab() {
-  pullTab.classList.remove('open');
-  isTabOpen = false;
-}
-
-
-const sceneMenuContainer = document.getElementById('scene-menu-container');
-
-function handleTabClick() {
-  if (isTabOpen) {
-    closeTabAndMenu();
-  } else {
-    openTabAndMenu();
-  }
-}
-
-function openTabAndMenu() {
-  pullTab.classList.add('open');
-  sceneMenuContainer.classList.add('open'); 
-  isTabOpen = true;
-}
-
-function closeTabAndMenu() {
-  pullTab.classList.remove('open');
-  sceneMenuContainer.classList.remove('open');
-  isTabOpen = false;
-}
+        function closeTab() {
+            pullTab.classList.remove('open');
+            isTabOpen = false;
+        }
 
 
-document.addEventListener('DOMContentLoaded', () => {
-    const dragonButton = document.getElementById('dragon-button');
-    const diceContainer = document.getElementById('dice-container');
+        const sceneMenuContainer = document.getElementById('scene-menu-container');
 
-    dragonButton.addEventListener('click', () => {
-        // Toggle the "active" class on click
-        dragonButton.classList.toggle('active');
+        function handleTabClick() {
+            if (isTabOpen) {
+                closeTabAndMenu();
+            } else {
+                openTabAndMenu();
+            }
+        }
 
-        // Toggle the visibility of the dice container
-        diceContainer.classList.toggle('hidden');
-        diceContainer.classList.toggle('visible');
-    });
-});
+        function openTabAndMenu() {
+            pullTab.classList.add('open');
+            sceneMenuContainer.classList.add('open');
+            isTabOpen = true;
+        }
 
-// Get the modal
-var modal = document.getElementById("myModal");
-
-// Get the button that opens the modal
-var btn = document.getElementById("event-maker-button");
-
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
-
-// When the user clicks the button, open the modal
-btn.onclick = function() {
-  modal.style.display = "block";
-}
-
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-  modal.style.display = "none";
-}
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
-  }
-}
-
-// Form submission handling
-var form = document.getElementById("event-form");
-form.addEventListener("submit", function(event) {
-  event.preventDefault(); // Prevent default form submission
-
-  // Retrieve form data
-  var title = document.getElementById("title").value;
-  var narration = document.getElementById("narration").value;
-  var image = document.getElementById("image").files[0];
-
-  // Close the modal
-  modal.style.display = "none";
-});
+        function closeTabAndMenu() {
+            pullTab.classList.remove('open');
+            sceneMenuContainer.classList.remove('open');
+            isTabOpen = false;
+        }
 
 
-let selectedDice = {};
+        document.addEventListener('DOMContentLoaded', () => {
+            const dragonButton = document.getElementById('dragon-button');
+            const diceContainer = document.getElementById('dice-container');
 
-function addDie(die, selectedDice, document) {
-  if (!selectedDice[die]) {
-      selectedDice[die] = 1;
-  } else {
-      selectedDice[die]++;
-  }
-  updateSelectedDiceDisplay(selectedDice, document);
-  document.getElementById("rollButton").style.display = "block";
-}
+            dragonButton.addEventListener('click', () => {
+                // Toggle the "active" class on click
+                dragonButton.classList.toggle('active');
 
+                // Toggle the visibility of the dice container
+                diceContainer.classList.toggle('hidden');
+                diceContainer.classList.toggle('visible');
+            });
+        });
 
-function updateSelectedDiceDisplay() {
-    let selectedDiceDisplay = [];
-    for (const die in selectedDice) {
-        selectedDiceDisplay.push(`${selectedDice[die]}${die}`);
-    }
-    document.getElementById("result").innerText = `Rolling: ${selectedDiceDisplay.join(' + ')}`;
-}
+        // Get the modal
+        var modal = document.getElementById("myModal");
 
-function rollDice() {
-  let totalResult = 0;
-  for (const die in selectedDice) {
-      switch (die) {
-          case 'D4':
-              totalResult += rollNDice(selectedDice[die], 4);
-              break;
-          case 'D6':
-              totalResult += rollNDice(selectedDice[die], 6);
-              break;
-          case 'D8':
-              totalResult += rollNDice(selectedDice[die], 8);
-              break;
-          case 'D10':
-              totalResult += rollNDice(selectedDice[die], 10);
-              break;
-          case 'D12':
-              totalResult += rollNDice(selectedDice[die], 12);
-              break;
-          case 'D20':
-              totalResult += rollNDice(selectedDice[die], 20);
-              break;
-          case 'D100':
-              totalResult += rollNDice(selectedDice[die], 100);
-              break;
-          default:
-              break;
-      }
-  }
-  document.getElementById("result").innerText = `Total Result: ${totalResult}`;
-  selectedDice = {};
-  document.getElementById("rollButton").style.display = "none";
-}
+        // Get the button that opens the modal
+        var btn = document.getElementById("event-maker-button");
 
-function rollNDice(n, sides) {
-  let result = 0;
-  for (let i = 0; i < n; i++) {
-      result += Math.floor(Math.random() * sides) + 1;
-  }
-  return result;
-}
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
 
+        // When the user clicks the button, open the modal
+        btn.onclick = function () {
+            modal.style.display = "block";
+        }
 
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
 
-const plusButton = document.getElementById('plus-button');
-const eventCardsContainer = document.getElementById('event-cards-container');
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
 
-plusButton.addEventListener('click', () => {
-  const eventCardsImg = document.createElement('img');
-  eventCardsImg.src = './src/assets/eventCards.png';
-  eventCardsImg.alt = 'Event Cards';
+        // Form submission handling
+        var form = document.getElementById("event-form");
+        form.addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent default form submission
 
-  eventCardsContainer.innerHTML = '';
-  eventCardsContainer.appendChild(eventCardsImg);
-  eventCardsContainer.style.display = eventCardsContainer.style.display === 'none' ? 'block' : 'none';
-});
+            // Retrieve form data
+            var title = document.getElementById("title").value;
+            var narration = document.getElementById("narration").value;
+            var image = document.getElementById("image").files[0];
+
+            // Close the modal
+            modal.style.display = "none";
+        });
+
+        let selectedDice = {};
+        const rollHistory = JSON.parse(localStorage.getItem('rollHistory') || '{}');
+
+        function addDie(die) {
+            if (!selectedDice[die]) {
+                selectedDice[die] = 1;
+            } else {
+                selectedDice[die]++;
+            }
+            updateSelectedDiceDisplay();
+            document.getElementById("rollButton").style.display = "block";
+        }
+
+        function updateSelectedDiceDisplay() {
+            let selectedDiceDisplay = [];
+            for (const die in selectedDice) {
+                selectedDiceDisplay.push(`${selectedDice[die]}${die}`);
+            }
+            document.getElementById("result").innerText = `Rolling: ${selectedDiceDisplay.join(' + ')}`;
+        }
+
+        function rollDice() {
+            let totalResult = 0;
+            for (const die in selectedDice) {
+                switch (die) {
+                    case 'D4':
+                        totalResult += rollNDice(selectedDice[die], 4);
+                        break;
+                    case 'D6':
+                        totalResult += rollNDice(selectedDice[die], 6);
+                        break;
+                    case 'D8':
+                        totalResult += rollNDice(selectedDice[die], 8);
+                        break;
+                    case 'D10':
+                        totalResult += rollNDice(selectedDice[die], 10);
+                        break;
+                    case 'D12':
+                        totalResult += rollNDice(selectedDice[die], 12);
+                        break;
+                    case 'D20':
+                        totalResult += rollNDice(selectedDice[die], 20);
+                        break;
+                    case 'D100':
+                        totalResult += rollNDice(selectedDice[die], 100);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            const timestamp = new Date().toLocaleString();
+            rollHistory[timestamp] = totalResult;
+            localStorage.setItem('rollHistory', JSON.stringify(rollHistory));
+            document.getElementById("result").innerText = `Total Result: ${totalResult}`;
+            selectedDice = {};
+            document.getElementById("rollButton").style.display = "none";
+        }
+
+        function rollNDice(n, sides) {
+            let result = 0;
+            for (let i = 0; i < n; i++) {
+                result += Math.floor(Math.random() * sides) + 1;
+            }
+            return result;
+        }
+
+        const plusButton = document.getElementById('plus-button');
+        const eventCardsContainer = document.getElementById('event-cards-container');
+
+        plusButton.addEventListener('click', () => {
+            const eventCardsImg = document.createElement('img');
+            eventCardsImg.src = './src/assets/eventCards.png';
+            eventCardsImg.alt = 'Event Cards';
+
+            eventCardsContainer.innerHTML = '';
+            eventCardsContainer.appendChild(eventCardsImg);
+            eventCardsContainer.style.display = eventCardsContainer.style.display === 'none' ? 'block' : 'none';
+        });
+
+        // Get the history modal
+        var historyModal = document.getElementById("historyModal");
+
+        // Get the <span> element that closes the modal
+        var historyModalSpan = historyModal.getElementsByClassName("close")[0];
+
+        // When the user clicks on <span> (x), close the modal
+        historyModalSpan.onclick = function () {
+            historyModal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == historyModal) {
+                historyModal.style.display = "none";
+            }
+        }
+
+        function showHistory() {
+            var historyList = document.getElementById("historyList");
+            historyList.innerHTML = "";
+
+            for (const timestamp in rollHistory) {
+                const listItem = document.createElement("li");
+                listItem.textContent = `${timestamp}: ${rollHistory[timestamp]}`;
+                historyList.appendChild(listItem);
+            }
+
+            historyModal.style.display = "block";
+        }
+
+        window.addEventListener('beforeunload', () => {
+            localStorage.removeItem('rollHistory');
+        });
     </script>
 </body>
 

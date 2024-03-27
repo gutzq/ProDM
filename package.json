@@ -2,7 +2,7 @@
   "name": "attempt-1",
   "version": "1.0.0",
   "description": "",
-  "main": "./dist/index.js",
+  "main": "./dist/index.cjs",
   "scripts": {
     "test": "jest ./tests",
     "build": "babel src -d lib",
@@ -12,7 +12,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "electron": "^29.1.4",
+    "babel": "^6.23.0",
+    "electron": "^29.1.5",
     "random": "^4.1.0"
   },
   "devDependencies": {
