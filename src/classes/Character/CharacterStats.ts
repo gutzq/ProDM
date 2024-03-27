@@ -1,5 +1,3 @@
-import { stat } from "original-fs";
-
 export enum Stat {STR = 'strength', DEX = 'dexterity', CON = 'constitution', INT = 'intelligence', WIS = 'wisdom', CHA = 'charisma'}
 
 export class CharacterStats {
