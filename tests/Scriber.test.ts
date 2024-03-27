@@ -13,8 +13,7 @@ describe('Scriber saving character data', () => {
     let Newton = new Character('Newton');
 
     Euler.stats.set(Stat.INT, Math.floor(Math.exp(1)));
-    Euler.stats.set(Stat.STR, Math.floor(Math.exp(2)));
-    
+
     scribe.saveCharacter(Euler);
     scribe.saveCharacter(Newton);
 
