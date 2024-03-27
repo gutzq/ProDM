@@ -13,15 +13,14 @@ export class Scriber {
     }
 
     saveEventCard(event: EventNode, imgPath: fs.PathOrFileDescriptor) {
-        
+        const newEvent = {event: Object.fromEntries(event)}
     }
 
     saveCharacter(character: Character) {
         const newCharacter = {stats: Object.fromEntries(character.stats)};
-        let characters = JSON.parse(
-            fs.readFileSync(this.saveDirectory + characterSaveFileName, 'utf-8')
-        );
+        let file = fs.readFileSync(this.saveDirectory + characterSaveFileName, 'utf-8');
+        let characters = JSON.parse(file);
         characters[character.name.toString()] = newCharacter;
-        fs.writeFile(this.saveDirectory + characterSaveFileName, JSON.stringify(characters), (err) => {if (err) throw err;});
+        fs.writeFileSync(this.saveDirectory + characterSaveFileName, JSON.stringify(characters));
     }
 }
