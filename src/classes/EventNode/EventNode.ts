@@ -10,6 +10,7 @@ export class EventNode {
 
     constructor(name: string, description?: string) {
         this.name = name;
+        this.description = description ?? this.description;
     }
     
     add(newEvent: EventNode) {
@@ -46,8 +47,8 @@ export class EventNode {
         return [numNodes, numConnections];
     }
 
-    tostring(): string { // represent tree as string. shows overall structure. indentation depth for each node reflects its actual depth 
-        let s = '';
+    toString(): string { // represent tree as string. shows overall structure. indentation depth for each node reflects its actual depth 
+        let s: string = '';
         for (const [outcome, depth] of this) {
             s = s.concat(`${DELIMITER.repeat(depth)}${outcome.name}\n`);
         }
