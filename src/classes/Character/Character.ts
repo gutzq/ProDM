@@ -1,11 +1,11 @@
 import { CharacterStats } from "./CharacterStats";
 
 export class Character {
-    readonly name: String;
+    readonly name: string;
     stats: CharacterStats = new CharacterStats();
     isAlive: boolean = true;
 
-    constructor(name: String, stats?: CharacterStats) {
+    constructor(name: string, stats?: CharacterStats) {
         this.name = name;
         this.stats = stats ?? this.stats;
     }
