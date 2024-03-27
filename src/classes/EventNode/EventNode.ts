@@ -4,10 +4,11 @@ class InvariantViolation extends Error {}
 class SelfLoopViolation extends Error {}
 
 export class EventNode {
-    readonly name: String;
-    outcomes: Map<String, EventNode> = new Map();
+    readonly name: string;
+    description: string = '';
+    outcomes: Map<string, EventNode> = new Map();
 
-    constructor(name: String) {
+    constructor(name: string, description?: string) {
         this.name = name;
     }
     
@@ -19,7 +20,7 @@ export class EventNode {
         return this.outcomes.set(newEvent.name, newEvent);
     }
 
-    remove(newEvent: String) { // add and remove accept different types. TODO: possible redesign?
+    remove(newEvent: string) { // add and remove accept different types. TODO: possible redesign?
         return this.outcomes.delete(newEvent);
     }
 
@@ -45,7 +46,7 @@ export class EventNode {
         return [numNodes, numConnections];
     }
 
-    toString(): String { // represent tree as string. shows overall structure. indentation depth for each node reflects its actual depth 
+    tostring(): string { // represent tree as string. shows overall structure. indentation depth for each node reflects its actual depth 
         let s = '';
         for (const [outcome, depth] of this) {
             s = s.concat(`${DELIMITER.repeat(depth)}${outcome.name}\n`);
