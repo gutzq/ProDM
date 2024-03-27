@@ -2,18 +2,20 @@ import * as fs from 'fs';
 import { EventNode } from '../EventNode/EventNode';
 import { Character } from '../Character/Character';
 
-const characterSaveFileName = '/Characters.json';
-const eventsSaveFileName = '/Events.json';
+export const characterSaveFileName = '/Characters.json';
+export const eventsSaveFileName = '/Events.json';
 
 export class Scriber {
     readonly saveDirectory: fs.PathOrFileDescriptor;
 
     constructor(saveDirectory: fs.PathOrFileDescriptor) {
         this.saveDirectory = saveDirectory;
+        fs.appendFileSync(this.saveDirectory + characterSaveFileName, '');
+        fs.appendFileSync(this.saveDirectory + eventsSaveFileName, ''); // this is to create the file just in case. TS/JS has no method of just making one
     }
 
     saveEventCard(event: EventNode, imgPath: fs.PathOrFileDescriptor) {
-        const newEvent = {event: Object.fromEntries(event)}
+        
     }
 
     saveCharacter(character: Character) {
