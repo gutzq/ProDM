@@ -8,6 +8,13 @@
     "build": "babel src -d lib",
     "start": "npm run build && electron ."
   },
+
+    "compilerOptions": {
+      "module": "esnext",
+      "target": "esnext",
+      "moduleResolution": "node"
+    }
+  ,
   "keywords": [],
   "author": "",
   "license": "ISC",
