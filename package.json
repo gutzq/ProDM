@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "babel": "^6.23.0",
+    "draggable": "^4.2.0",
     "electron": "^29.1.5",
     "random": "^4.1.0"
   },

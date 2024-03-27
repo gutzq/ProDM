@@ -94,17 +94,34 @@
   transform: scale(0.50);
   right: 255px;
 }
+.select-scenario-btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  margin: 190px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transform: scale(3.5);
+  display: block;
+  transition: background-color 0.3s ease;
+}
 
+.select-scenario-btn:hover {
+  background-color: #45a049;
+}
 .scenario {
-
 }
 
 .scenario-title {
   font-size: 128px;
+  max-width: 1000px;
 }
 
 .scenario-narration {
   font-size: 80px;
+  max-width: 1000px;
 }
 
 .scenario-image {

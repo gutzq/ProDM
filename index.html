@@ -88,22 +88,33 @@
         <img id="pulltab" src="./src/assets/pulltab.png" alt="Pull Tab">
     </div>
 
-    <!-- Scene Menu Container -->
+    <!-- Scene Menu Container ADD THINGS HERE TO MAKE MORE SCENES!-->
     <div id="scene-menu-container">
-      <img id="scene-menu" src="./src/assets/scenemenu.png" alt="Scene Menu">
-      <div id="scenario-container">
+        <img id="scene-menu" src="./src/assets/scenemenu.png" alt="Scene Menu">
+        <div id="scenario-container">
           <div class="scenario">
-              <h3 class="scenario-title">Scenario 1</h3>
-              <p class="scenario-narration">This is the narration for Scenario 1.</p>
-              <img class="scenario-image" src="./src/assets/scenario1.jpg" alt="Scenario 1 Image">
+            <h3 class="scenario-title">The Unseen Guardian</h3>
+            <p class="scenario-narration">If your players are trying to get into a building you can: \[As the players approach a low growl emanates from the darkness, followed by the tough appearance of a guardian, he is barely visible in the dim light and tells the party to buzz off as this place is restricted for commoners and adventurers alike. If the party tries to keep causing trouble punish them by placing them by sending 5 gaurds above their levels to jail them\]</p>
+            <img class="scenario-image" src="./src/assets/scenario1.jpg" alt="Scenario 1 Image">
+            <br>
+            <button class="select-scenario-btn">Select Scenario</button>
           </div>
           <div class="scenario">
-              <h3 class="scenario-title">Scenario 2</h3>
-              <p class="scenario-narration">This is the narration for Scenario 2.</p>
-              <img class="scenario-image" src="./src/assets/scenario1.jpg" alt="Scenario 2 Image">
+            <h3 class="scenario-title">Forbidden Path</h3>
+            <p class="scenario-narration">If your players a mucking about and they are near/in a forest you can: Suddenly "X" player dissapears and finds themselves in an overgrown path with foliage. Give them a timed death like the air is suffocating so they lose 1D4 of health every 30 seconds and this will make your party panic and run to rescue them. The fog dissapears when they are back together!</p>
+            <img class="scenario-image" src="./src/assets/path.jpg" alt="Scenario 2 Image">
+            <br>
+            <button class="select-scenario-btn">Select Scenario</button>
           </div>
+          <div class="scenario">
+            <h3 class="scenario-title">Scenario 3</h3>
+            <p class="scenario-narration">If your party splits up try: Put an enemy that is immune to the main damage type of this half of your party is dealing and that will make them go back and grab the other half to defeat this new creature.</p>
+            <img class="scenario-image" src="./src/assets/Construct.png" alt="Scenario 3 Image">
+            <br>
+            <button class="select-scenario-btn">Select Scenario</button>
+          </div>
+        </div>
       </div>
-  </div>
 
     <!-- Arrow Button -->
     <button id="up-arrow-button">
@@ -146,6 +157,16 @@
     </div>
 
     <div id="result" onclick="showHistory()"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/draggable/1.2.2/draggable.bundle.umd.min.js">
+        import Draggable from 'draggable';
+
+// Initialize Draggable for each image
+const images = document.querySelectorAll('.scenario-image');
+images.forEach(image => {
+    new Draggable(image);
+});
+
+    </script>
 
     <script>
         const swordImg = document.getElementById('sword');
@@ -388,6 +409,19 @@
 
             historyModal.style.display = "block";
         }
+        const scenarioButtons = document.querySelectorAll('.select-scenario-btn');
+
+scenarioButtons.forEach((button, index) => {
+  button.addEventListener('click', () => {
+    const selectedScenario = document.querySelectorAll('.scenario')[index];
+    const scenarioTitle = selectedScenario.querySelector('.scenario-title').textContent;
+    const scenarioNarration = selectedScenario.querySelector('.scenario-narration').textContent;
+
+    // OVER HERE IS WHERE THE CALL TO SAVE/ADD THE SCENARIO FROM THE SCENARIO MENU TO THE CURRENT NODE SHOULD BE WRITTEN!
+    console.log(`Selected Scenario: ${scenarioTitle}`);
+    console.log(`Narration: ${scenarioNarration}`);
+  });
+});
 
         window.addEventListener('beforeunload', () => {
             localStorage.removeItem('rollHistory');
