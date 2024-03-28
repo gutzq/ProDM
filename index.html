@@ -77,10 +77,12 @@
             <button id="rollButton" onclick="rollDice()">Roll</button>
         </div>
     </div>
-    <div id="event-cards-container"></div>
     <!-- Sword Container -->
     <div id="sword-container">
         <img id="sword" src="./src/assets/sword.png" alt="Sword">
+         <div id="event-cards-container">
+        <!-- Event cards will be dynamically added here -->
+		</div>
     </div>
 
     <!-- Pulltab Container -->
@@ -173,6 +175,7 @@ images.forEach(image => {
         const swordContainer = document.getElementById('sword-container');
 
         let isSwordDropped = false;
+        let eventCards = [];
 
         swordImg.addEventListener('click', handleSwordClick);
 
@@ -262,6 +265,9 @@ images.forEach(image => {
 
         // Get the modal
         var modal = document.getElementById("myModal");
+        
+        // Get the sword
+        var sword = document.getElementById("sword-container")
 
         // Get the button that opens the modal
         var btn = document.getElementById("event-maker-button");
@@ -295,6 +301,8 @@ images.forEach(image => {
             var title = document.getElementById("title").value;
             var narration = document.getElementById("narration").value;
             var image = document.getElementById("image").files[0];
+            
+            createEvent(title, narration, image)
 
             // Close the modal
             modal.style.display = "none";
@@ -312,6 +320,35 @@ images.forEach(image => {
             updateSelectedDiceDisplay();
             document.getElementById("rollButton").style.display = "block";
         }
+        
+        function createEvent(title, narration, image) {
+			const event = { title: title, narration: narration, image: image };
+			
+			eventCards.push(event);
+			
+			const currentEvent = document.createElement('div');
+			currentEvent.classList.add('event-card');
+			
+			const eventTitle = document.createElement('h2');
+			eventTitle.textContent = title;
+			
+			const eventNarration = document.createElement('r');
+			eventNarration.textContent = narration;
+			
+			const eventImage = document.createElement('img');
+			eventImage.src = URL.createObjectURL(image);
+			eventImage.alt = 'Event Image';
+			
+			currentEvent.appendChild(eventTitle);
+			currentEvent.appendChild(eventNarration);
+			currentEvent.appendChild(eventImage);
+			
+			swordContainer.appendChild(currentEvent);
+			
+			document.getElementById("title").value = "";
+			document.getElementById("narration").value = "";
+			document.getElementById("image").value = null;
+		}
 
         function updateSelectedDiceDisplay() {
             let selectedDiceDisplay = [];
@@ -411,17 +448,17 @@ images.forEach(image => {
         }
         const scenarioButtons = document.querySelectorAll('.select-scenario-btn');
 
-scenarioButtons.forEach((button, index) => {
-  button.addEventListener('click', () => {
-    const selectedScenario = document.querySelectorAll('.scenario')[index];
-    const scenarioTitle = selectedScenario.querySelector('.scenario-title').textContent;
-    const scenarioNarration = selectedScenario.querySelector('.scenario-narration').textContent;
+		scenarioButtons.forEach((button, index) => {
+		  button.addEventListener('click', () => {
+			const selectedScenario = document.querySelectorAll('.scenario')[index];
+			const scenarioTitle = selectedScenario.querySelector('.scenario-title').textContent;
+			const scenarioNarration = selectedScenario.querySelector('.scenario-narration').textContent;
 
-    // OVER HERE IS WHERE THE CALL TO SAVE/ADD THE SCENARIO FROM THE SCENARIO MENU TO THE CURRENT NODE SHOULD BE WRITTEN!
-    console.log(`Selected Scenario: ${scenarioTitle}`);
-    console.log(`Narration: ${scenarioNarration}`);
-  });
-});
+			// OVER HERE IS WHERE THE CALL TO SAVE/ADD THE SCENARIO FROM THE SCENARIO MENU TO THE CURRENT NODE SHOULD BE WRITTEN!
+			console.log(`Selected Scenario: ${scenarioTitle}`);
+			console.log(`Narration: ${scenarioNarration}`);
+		  });
+		});
 
         window.addEventListener('beforeunload', () => {
             localStorage.removeItem('rollHistory');
